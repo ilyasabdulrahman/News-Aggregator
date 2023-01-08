@@ -1,0 +1,140 @@
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <style>
+      body {
+        background-color: #87CEFA;
+      }
+      h1 {
+        text-align: center;
+        font-family: Arial;
+      }
+      h2 {
+        font-family: Arial;
+      }
+      ul {
+        font-family: Arial;
+      }
+      a {
+        color: #00008B;
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="display-4 mb-3">News Aggregator</h1>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h2 class="text-danger">
+            NYT Front Page
+            <small class="text-muted"><a href="https://www.nytimes.com">(https://www.nytimes.com)</a></small>
+          </h2>
+          <ul class="list-unstyled">
+            {% for headline in nyt_list %}
+              <li>{{ headline }}</li>
+            {% endfor %}
+          </ul>
+          
+        </div>
+        <div class="col-md-6 mb-3">
+          <h2 class="text-danger">
+            Fox News
+            <small class="text-muted"><a href="https://www.foxnews.com">(https://www.foxnews.com)</a></small>
+          </h2>
+          <ul class="list-unstyled">
+            {% for headline in fox_list %}
+              <li>{{ headline }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h2 class="text-danger">
+            The Guardian
+            <small class="text-muted"><a href="https://www.theguardian.com">(https://www.theguardian.com)</a></small>
+          </h2>
+          <ul class="list-unstyled">
+            {% for headline in gau_list %}
+              <li>{{ headline }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-md-6 mb-3">
+            <h2 class="text-danger">
+              CNBC
+              <small class="text-muted"><a href="https://www.cnbc.com">(https://www.cnbc.com)</a></small>
+            </h2>
+            <ul class="list-unstyled">
+              {% for headline in cnbc_list %}
+                <li>{{ headline }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+  <div class="col-md-6 mb-3">
+    <h2 class="text-danger">
+      NDTV
+      <small class="text-muted"><a href="https://www.ndtv.com">(https://www.ndtv.com)</a></small>
+    </h2>
+    <ul class="list-unstyled">
+      {% for headline in ndtv_list %}
+        <li>{{ headline }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-6 mb-3">
+    <h2 class="text-danger">
+      Sky Sports Football News
+      <small class="text-muted"><a href="https://www.foxsports.com">(https://www.foxsports.com)</a></small>
+    </h2>
+    <ul class="list-unstyled">
+      {% for headline in sky_list %}
+        <li>{{ headline }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <h2 class="text-danger">
+              Lansing State Journal
+              <small class="text-muted"><a href="https://www.lansingstatejournal.com">(https://www.lansingstatejournal.com)</a></small>
+            </h2>
+            <ul class="list-unstyled">
+              {% for headline in lsj_list %}
+                <li>{{ headline }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="col-md-6 mb-3">
+            <h2 class="text-danger">
+              The Detroit News
+              <small class="text-muted"><a href="https://www.detroitnews.com">(https://www.detroitnews.com)</a></small>
+            </h2>
+            <ul class="list-unstyled">
+              {% for headline in det_list %}
+                <li>{{ headline }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+         <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.16.0/dist/umd/popper.min.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>
