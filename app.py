@@ -9,9 +9,24 @@
 from flask import Flask, render_template
 from bs4 import BeautifulSoup
 import requests
+#from database import store_headlines
+import pymysql
 
 
 app = Flask(__name__, template_folder='.')
+
+@app.before_request
+def initialize_database():
+    '''
+    This function initializes the database connection before the first request.
+    '''
+    global connection
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="Poiu7890!2023",
+        database="testdb"
+    )
 
 
 
@@ -20,7 +35,7 @@ app = Flask(__name__, template_folder='.')
 def home():
     '''
     This function executes the code to be displayed on the home page of the
-    web application
+    web application.
     Returns: display of the web application
     '''
    
@@ -29,12 +44,40 @@ def home():
     gau_list = get_gaurdian()
     cnbc_list = get_cnbc()
     ndtv_list = get_ndtv()
+    sky_list = get_skysports()
     lsj_list = get_lsj()
     det_list = get_detroit_news()
     
+    store_headlines(nyt_list, 'NY_Times')
+    store_headlines(fox_list, 'FOX_NEWS')
+    store_headlines(gau_list, 'THE_GAURDIAN')
+    store_headlines(cnbc_list, 'CNBC_NEWS')
+    store_headlines(ndtv_list, 'NDTV_NEWS')
+    store_headlines(lsj_list, 'LSJ_NEWS')
+    store_headlines(det_list, 'DETROIT_NEWS')
+    store_headlines(sky_list, 'SKY_NEWS')
     
     
     return render_template("home.html", nyt_list=nyt_list, fox_list=fox_list, gau_list=gau_list, cnbc_list=cnbc_list, ndtv_list=ndtv_list, sky_list=sky_list, lsj_list=lsj_list, det_list=det_list)
+
+
+
+def store_headlines(headlines, website):
+    '''
+    This function stores the given list of headlines for a specific website in the database.
+    '''
+    global connection
+    cursor = connection.cursor()
+
+    for headline in headlines:
+        insert_query = '''
+        INSERT INTO headlines1 (website, headline)
+        VALUES (%s, %s)
+        '''
+        values = (website, headline)
+        cursor.execute(insert_query, values)
+
+    connection.commit()
 
 def get_nytimes():
     '''
@@ -54,7 +97,9 @@ def get_nytimes():
         return "Error: Could not parse NY Times raw data."
     
     nyt_list = []
-    for section in soup.find_all('section', class_='story-wrapper')[0:7]:
+    for section in soup.find_all('section', class_='story-wrapper'):
+        if len(nyt_list) == 5:
+            break
         try:
             # iterates through the website's HTML code
             headline = section.a.h3.text
@@ -81,9 +126,11 @@ def get_foxnews():
         return "Error: Could not parse FOX NEWS raw data."
     
     fox_list = []
-    for article in soup.find_all('article')[10:15]:
+    for header in soup.find_all('header')[0:6]:
+        if len(fox_list) == 5:
+            break
         try:
-            headline = article.header.h2.a.text
+            headline = header.h3.a.text
             fox_list.append(headline)
         except:
             print("Error: Structure of FOX NEWS website has changed.")
@@ -107,7 +154,9 @@ def get_gaurdian():
         return "Error: Could not parse raw data from The Gaurdian news."
     
     gau_list = []
-    for div in soup.find_all('div', class_='fc-item__container')[0:6]:
+    for div in soup.find_all('div', class_='fc-item__container'):
+        if len(gau_list) == 5:
+            break
         try:
             headline = div.a.text
             gau_list.append(headline)
@@ -133,13 +182,14 @@ def get_cnbc():
         return "Error: Could not parse raw data from CNBC News."
     
     cnbc_list = []
-    for div in soup.find_all('div', class_='LatestNews-headlineWrapper')[0:13]:
+    for div in soup.find_all('div', class_='LatestNews-headlineWrapper'):
+        if len(cnbc_list) == 5:
+            break
         try:
             headline = div.a.text
-            if headline == "":
-                pass
-            else:
+            if headline != "":
                 cnbc_list.append(headline)
+            
         except:
             print("Error: Structure of CNBC News website has changed.")
             continue
@@ -162,7 +212,9 @@ def get_skysports():
         return "Error: Could not parse NY Times raw data."
 
     sky_list = []
-    for div in soup.find_all('div', class_='news-list__item')[0:7]:
+    for div in soup.find_all('div', class_='news-list__item'):
+        if len(sky_list) == 8:
+            break
         try:
             #iterate through the website's HTML code
             headline = div.h4.a.text
@@ -189,7 +241,9 @@ def get_ndtv():
         return "Error: Could not parse raw data from NDTV Most Popular News."
     
     ndtv_list = []
-    for div in soup.find_all('div', class_='trend-list')[0:6]:
+    for div in soup.find_all('div', class_='trend-list'):
+        if len(ndtv_list) == 5:
+            break
         try:
             headline = div.h3.a.text
             ndtv_list.append(headline)
@@ -242,6 +296,8 @@ def get_detroit_news():
     
     det_list = []
     for a in soup.find_all('a', class_='gnt_m_th_a'):
+        if len(det_list) == 5:
+            break
         try:
             headline = a.text
             det_list.append(headline)

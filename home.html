@@ -14,13 +14,15 @@
       }
       h1 {
         text-align: center;
-        font-family: Arial;
+        font-family: arial;
       }
       h2 {
         font-family: Arial;
       }
-      ul {
+      ul li {
         font-family: Arial;
+        list-style-type: square;
+        margin-left: 2rem;
       }
       a {
         color: #00008B;
@@ -30,12 +32,12 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="display-4 mb-3">News Aggregator</h1>
+      <h1 class="display-4 mb-3 text-danger">Latest News</h1>
       <div class="row">
         <div class="col-md-6 mb-3">
           <h2 class="text-danger">
             NYT Front Page
-            <small class="text-muted"><a href="https://www.nytimes.com">(https://www.nytimes.com)</a></small>
+            <small class="text-muted"><a href="https://www.nytimes.com">(www.nytimes.com)</a></small>
           </h2>
           <ul class="list-unstyled">
             {% for headline in nyt_list %}
@@ -47,7 +49,7 @@
         <div class="col-md-6 mb-3">
           <h2 class="text-danger">
             Fox News
-            <small class="text-muted"><a href="https://www.foxnews.com">(https://www.foxnews.com)</a></small>
+            <small class="text-muted"><a href="https://www.foxnews.com">(www.foxnews.com)</a></small>
           </h2>
           <ul class="list-unstyled">
             {% for headline in fox_list %}
@@ -60,7 +62,7 @@
         <div class="col-md-6 mb-3">
           <h2 class="text-danger">
             The Guardian
-            <small class="text-muted"><a href="https://www.theguardian.com">(https://www.theguardian.com)</a></small>
+            <small class="text-muted"><a href="https://www.theguardian.com">(www.theguardian.com)</a></small>
           </h2>
           <ul class="list-unstyled">
             {% for headline in gau_list %}
@@ -71,7 +73,7 @@
         <div class="col-md-6 mb-3">
             <h2 class="text-danger">
               CNBC
-              <small class="text-muted"><a href="https://www.cnbc.com">(https://www.cnbc.com)</a></small>
+              <small class="text-muted"><a href="https://www.cnbc.com">(www.cnbc.com)</a></small>
             </h2>
             <ul class="list-unstyled">
               {% for headline in cnbc_list %}
@@ -84,7 +86,7 @@
   <div class="col-md-6 mb-3">
     <h2 class="text-danger">
       NDTV
-      <small class="text-muted"><a href="https://www.ndtv.com">(https://www.ndtv.com)</a></small>
+      <small class="text-muted"><a href="https://www.ndtv.com">(www.ndtv.com)</a></small>
     </h2>
     <ul class="list-unstyled">
       {% for headline in ndtv_list %}
@@ -95,7 +97,7 @@
   <div class="col-md-6 mb-3">
     <h2 class="text-danger">
       Sky Sports Football News
-      <small class="text-muted"><a href="https://www.foxsports.com">(https://www.foxsports.com)</a></small>
+      <small class="text-muted"><a href="https://www.skysports.com/football">(www.skysports.com/football)</a></small>
     </h2>
     <ul class="list-unstyled">
       {% for headline in sky_list %}
@@ -109,7 +111,7 @@
           <div class="col-md-6 mb-3">
             <h2 class="text-danger">
               Lansing State Journal
-              <small class="text-muted"><a href="https://www.lansingstatejournal.com">(https://www.lansingstatejournal.com)</a></small>
+              <small class="text-muted"><a href="https://www.lansingstatejournal.com">(www.lansingstatejournal.com)</a></small>
             </h2>
             <ul class="list-unstyled">
               {% for headline in lsj_list %}
@@ -120,7 +122,7 @@
           <div class="col-md-6 mb-3">
             <h2 class="text-danger">
               The Detroit News
-              <small class="text-muted"><a href="https://www.detroitnews.com">(https://www.detroitnews.com)</a></small>
+              <small class="text-muted"><a href="https://www.detroitnews.com">(www.detroitnews.com)</a></small>
             </h2>
             <ul class="list-unstyled">
               {% for headline in det_list %}
