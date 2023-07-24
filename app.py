@@ -9,29 +9,12 @@
 from flask import Flask, render_template
 from bs4 import BeautifulSoup
 import requests
-#from database import store_headlines
-import pymysql
 
 
 app = Flask(__name__, template_folder='.')
 
-@app.before_request
-def initialize_database():
-    '''
-    This function initializes the database connection before the first request.
-    '''
-    global connection
-    connection = pymysql.connect(
-        host="localhost",
-        user="root",
-        password="Poiu7890!2023",
-        database="testdb"
-    )
-
-
 
 @app.route("/")
-
 def home():
     '''
     This function executes the code to be displayed on the home page of the
@@ -41,43 +24,14 @@ def home():
    
     nyt_list = get_nytimes()
     fox_list = get_foxnews()
-    gau_list = get_gaurdian()
+    tech_list = get_techradar()
     cnbc_list = get_cnbc()
     ndtv_list = get_ndtv()
     sky_list = get_skysports()
     lsj_list = get_lsj()
     det_list = get_detroit_news()
     
-    store_headlines(nyt_list, 'NY_Times')
-    store_headlines(fox_list, 'FOX_NEWS')
-    store_headlines(gau_list, 'THE_GAURDIAN')
-    store_headlines(cnbc_list, 'CNBC_NEWS')
-    store_headlines(ndtv_list, 'NDTV_NEWS')
-    store_headlines(lsj_list, 'LSJ_NEWS')
-    store_headlines(det_list, 'DETROIT_NEWS')
-    store_headlines(sky_list, 'SKY_NEWS')
-    
-    
-    return render_template("home.html", nyt_list=nyt_list, fox_list=fox_list, gau_list=gau_list, cnbc_list=cnbc_list, ndtv_list=ndtv_list, sky_list=sky_list, lsj_list=lsj_list, det_list=det_list)
-
-
-
-def store_headlines(headlines, website):
-    '''
-    This function stores the given list of headlines for a specific website in the database.
-    '''
-    global connection
-    cursor = connection.cursor()
-
-    for headline in headlines:
-        insert_query = '''
-        INSERT INTO headlines1 (website, headline)
-        VALUES (%s, %s)
-        '''
-        values = (website, headline)
-        cursor.execute(insert_query, values)
-
-    connection.commit()
+    return render_template("home.html", nyt_list=nyt_list, fox_list=fox_list, tech_list=tech_list, cnbc_list=cnbc_list, ndtv_list=ndtv_list, sky_list=sky_list, lsj_list=lsj_list, det_list=det_list)
 
 def get_nytimes():
     '''
@@ -98,7 +52,7 @@ def get_nytimes():
     
     nyt_list = []
     for section in soup.find_all('section', class_='story-wrapper'):
-        if len(nyt_list) == 5:
+        if len(nyt_list) == 6:
             break
         try:
             # iterates through the website's HTML code
@@ -137,33 +91,36 @@ def get_foxnews():
             continue
     return fox_list
 
-def get_gaurdian():
+def get_techradar():
     '''
-    This function retrieves the headlines from The Gaurdianwebsite and returns
+    This function retrieves the headlines from the TechRadar website and returns
     a list of the headlines.
-    Returns: list of The Gaurdian headlines
+    Returns: list of TechRadar headlines
     '''
     try:
-        source = requests.get('https://www.theguardian.com/us').text
+        source = requests.get('https://www.techradar.com').text
     except requests.RequestException:
-        return "Error: Could not retrieve raw data from The Gaurdian."
+        return "Error: Could not retrieve raw data from TechRadar."
     
     try:
         soup = BeautifulSoup(source, 'lxml')
     except:
-        return "Error: Could not parse raw data from The Gaurdian news."
+        return "Error: Could not parse raw data from TechRadar."
     
-    gau_list = []
-    for div in soup.find_all('div', class_='fc-item__container'):
-        if len(gau_list) == 5:
+    tech_list = []
+    for div in soup.find_all('div', class_="wcl-item-right p-u-1-2 p-u-sm-1 p-u-md-1-2 p-u-lg-1-2"):
+        if len(tech_list) == 6:
             break
         try:
-            headline = div.a.text
-            gau_list.append(headline)
+            headline = div.a.h3.text
+            print(headline)
+            if headline == '':
+                print("none")
+            tech_list.append(headline)
         except:
-            print("Error: Structure of The Gaurdian website has changed.")
+            print("Error: Structure of TechRadar website has changed.")
             continue
-    return gau_list
+    return tech_list
 
 def get_cnbc():
     '''
@@ -310,7 +267,7 @@ def get_detroit_news():
 
 nyt_list = get_nytimes()
 fox_list = get_foxnews()
-gau_list = get_gaurdian()
+tech_list = get_techradar()
 cnbc_list = get_cnbc()
 sky_list = get_skysports()
 ndtv_list = get_ndtv()
@@ -321,4 +278,4 @@ det_list = get_detroit_news()
 
  
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8083)

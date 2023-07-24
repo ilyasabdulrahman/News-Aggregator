@@ -8,6 +8,35 @@ Created on Fri Dec 30 21:44:35 2022
 
 import pymysql
 
+def initialize_database():
+    '''
+    This function initializes the database connection before the first request.
+    '''
+    global connection
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="Poiu7890!2023",
+        database="testdb"
+    )
+    
+def store_headlines(headlines, website):
+    '''
+    This function stores the given list of headlines for a specific website in the database.
+    '''
+    global connection
+    cursor = connection.cursor()
+
+    for headline in headlines:
+        insert_query = '''
+        INSERT INTO headlines1 (website, headline)
+        VALUES (%s, %s)
+        '''
+        values = (website, headline)
+        cursor.execute(insert_query, values)
+
+    connection.commit()
+
 
 def get_headlines_from_database(website):
     '''
